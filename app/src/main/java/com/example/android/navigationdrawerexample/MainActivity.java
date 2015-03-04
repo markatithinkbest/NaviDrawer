@@ -16,8 +16,6 @@
 
 package com.example.android.navigationdrawerexample;
 
-import java.util.Locale;
-
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
@@ -38,7 +36,10 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import java.util.Locale;
 
 /**
  * This example illustrates a common usage of the DrawerLayout widget
@@ -174,7 +175,9 @@ public class MainActivity extends Activity {
 
     private void selectItem(int position) {
         // update the main content by replacing fragments
-        Fragment fragment = new PlanetFragment();
+//        Fragment fragment = new PlanetFragment();
+        Fragment fragment = new MainFragment();
+
         Bundle args = new Bundle();
         args.putInt(PlanetFragment.ARG_PLANET_NUMBER, position);
         fragment.setArguments(args);
@@ -234,6 +237,32 @@ public class MainActivity extends Activity {
                             "drawable", getActivity().getPackageName());
             ((ImageView) rootView.findViewById(R.id.image)).setImageResource(imageId);
             getActivity().setTitle(planet);
+            return rootView;
+        }
+    }
+
+
+    public static class MainFragment extends Fragment {
+        public static final String ARG_PLANET_NUMBER = "planet_number";
+
+        public MainFragment() {
+            // Empty constructor required for fragment subclasses
+        }
+
+        @Override
+        public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                                 Bundle savedInstanceState) {
+            View rootView = inflater.inflate(R.layout.fragment_main, container, false);
+            int i = getArguments().getInt(ARG_PLANET_NUMBER);
+            String planet = getResources().getStringArray(R.array.planets_array)[i];
+
+//            int imageId = getResources().getIdentifier(planet.toLowerCase(Locale.getDefault()),
+//                    "drawable", getActivity().getPackageName());
+//            ((ImageView) rootView.findViewById(R.id.image)).setImageResource(imageId);
+//            getActivity().setTitle(planet);
+
+            ((TextView) rootView.findViewById(R.id.textView)).setText(ARG_PLANET_NUMBER+"="+i);
+//
             return rootView;
         }
     }
